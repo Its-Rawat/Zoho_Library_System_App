@@ -1,0 +1,2350 @@
+/*
+ * Author       : adi2002rawat
+ * Generated on : 03-Jan-2025 04:02:52
+ * Version      : 1.0
+ */
+ application "Elite-Library"
+ {
+ 	date format = "dd-MMM-yyyy"
+ 	time zone = "Asia/Kolkata"
+ 	time format = "24-hr"
+ 	section Education_Library_Membership
+	{
+		displayname= "Library Membership"
+		icon = "business-books"
+		form Membership_Form
+		{
+			displayname = "Membership Form"
+			success message = "New Member Added Successfully!"
+			field alignment = left
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			unique Member_Id
+			(
+				type = number
+				displayname = "Member Id"
+				initial value = 100
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Name
+			(
+    			type = name
+     			prefix
+     			(
+	     			 type = prefix
+	     			 displayname ="Prefix"
+	     			 visibility = false
+	     			 value = {"Mr.","Mrs.","Ms."}
+     			) 
+     			first_name
+     			(
+	     			 type = first_name
+	     			 displayname ="First Name"
+     			) 
+     			last_name
+     			(
+	     			 type = last_name
+	     			 displayname ="Last Name"
+     			) 
+     			suffix
+     			(
+	     			 type = suffix
+	     			 displayname ="Suffix"
+	     			 visibility = false
+     			) 
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Email
+			(
+    			type = email
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Phone_Number
+			(
+    			type = phonenumber
+				displayname = "Phone Number"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Membership_Start_Date
+			(
+    			type = date
+				displayname = "Start Date"
+				initial value = "${zoho.currentdate}"
+				alloweddays = 1,2,3,4,5,6
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Membership_Type
+			(
+				type = picklist
+				displayname = "Membership Type"
+				maxchar = 100
+				values = {"Basic Member","Premium Member","Elite Member"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Max_Books_Allowed
+			(
+    			type = text
+				displayname = "Max Books Allowed"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Declaration
+			(
+				type = section
+				visibility = true
+	 			row = 2
+	 			column = 0   
+				width = medium
+			)
+			must have Declaration1
+			(
+    			type = checkbox
+				displayname = "Accept responsibiltiy for the return of any borrowed item by the due date."
+				initial value = false
+	 			row = 2
+	 			column = 1   
+				width = 300px
+			)
+			must have Declaration2
+			(
+    			type = checkbox
+				displayname = "I am aware any items lost, defaced, damaged or not returned by me will incur a replacement cost."
+				initial value = false
+	 			row = 2
+	 			column = 1   
+				width = 300px
+			)
+			must have Declaration3
+			(
+    			type = checkbox
+				displayname = "I understand my borrowing rights will be suspended while any items remain overdue."
+				initial value = false
+	 			row = 2
+	 			column = 1   
+				width = 300px
+			)
+	
+			customize
+			(
+				icon = "design-2-form"
+			)
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		summary Education_Registered_Members
+		{
+			displayName = "Registered Members"
+			show all rows from Membership_Form    
+			(
+				Name 
+	 			(
+	      			displayformat = [first_name+""+prefix+""+last_name+""+suffix]
+	 			)
+				Phone_Number as "Phone Number"
+				Email
+				Membership_Start_Date as "Start Date"
+				Membership_Type as "Membership Type"
+				Max_Books_Allowed as "Max Books Allowed"
+				Member_Id as "Member Id"
+			)
+			options
+			(
+				display rows = 10
+				display records per row = 2
+				icon = "users-2-b-check"
+			)
+			quickview
+			(
+				layout
+				(
+		 			type = -2
+	     			recordsperrow = 2
+					datablock1
+					(
+						layout type = -2
+		     			title = "Overview"
+						fields
+						(
+							Member_Id as "Member Id"
+							Name
+							Email
+							Phone_Number as "Phone Number"
+							Membership_Start_Date as "Start Date"
+							Membership_Type as "Membership Type"
+							Max_Books_Allowed as "Max Books Allowed"
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    		 			Add 
+    		 			Print 
+    		 			Import 
+    		 			Export 
+    	 			)
+					record
+					(
+						Edit   	   
+						Duplicate   	   
+						Print   	   
+						Delete   	   
+    				)
+    			)
+    			action
+    			(
+					on click
+					(
+						View Record   	   
+    				)
+					on right click
+					(
+						Edit   	   
+						Delete   	   
+						Duplicate   	   
+						Print   	   
+						View Record   	   
+    				)
+     			)
+			)
+			detailview
+			(
+				layout
+				(
+		 			type = 1
+					datablock1
+					(
+						layout type = -2
+		     			title = "Overview"
+						fields
+						(
+							Name
+							Phone_Number as "Phone Number"
+							Email
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Print 
+    		 			Delete 
+    	 			)
+    			)
+			)
+		}
+	}
+	section Books_Module
+	{
+		displayname= "Books Module"
+		icon = "education-books-46"
+		form Books_Module
+		{
+			displayname = "Books Module"
+			success message = "Data Added Successfully!"
+			field alignment = left
+			feature property = 256
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			unique Book_Id
+			(
+				type = number
+				displayname = "Book Id"
+				initial value = 9999
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Book_Title
+			(
+    			type = text
+				displayname = "Book Title"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Book_Author
+			(
+    			type = text
+				displayname = "Book Author"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Book_Genre
+			(
+				type = picklist
+				displayname = "Book Genre"
+				maxchar = 100
+				values = {"Fiction","Non-Fiction","Sci-Fi","Biography"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Publication_Year
+			(
+				type = number
+				displayname = "Publication Year"
+				maxchar = 14
+				initial value = 2025
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Available_Copies
+			(
+				type = number
+				displayname = "Available Copies "
+				initial value = 0
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			unique ISBN_Number
+			(
+    			type = text
+				displayname = "ISBN Number"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Rating
+			(
+    			type = text
+				displayname = "Rating (1-5)"
+				initial value = "5"
+	 			row = 1
+	 			column = 1   
+				width = small
+			)
+			Status
+			(
+    			type = text
+				initial value = "Not Featured"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			customize
+			(
+				icon = "education-books-46"
+			)
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+				}
+				on edit
+				{
+					Update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		default summary Books_Module_Report
+		{
+			displayName = "Books Module Report"
+			show all rows from Books_Module    
+			(
+				Book_Title as "Book Title"
+				Book_Author as "Book Author"
+				Book_Genre as "Book Genre"
+				Publication_Year as "Publication Year"
+				Available_Copies as "Available Copies "
+				ISBN_Number as "ISBN Number"
+				Rating as "Rating (1-5)"
+				Book_Id as "Book Id"
+				custom action "Mark as Featured"
+				(
+	  			workflow = Feature_a_Book_Wrokflow
+				show action in edit record menu = true
+				column header = "Mark as Featured"
+				)
+				Status
+			)
+			options
+			(
+				display rows = 10
+				display records per row = 2
+				icon = "education-book-open"
+			)
+			conditional formatting
+			(
+				"Featured"
+				{
+				condition = (Book_Author is not null)
+				format = "color:#f1c50e;"
+				}
+			)
+			quickview
+			(
+				layout
+				(
+		 			type = -2
+	     			recordsperrow = 2
+					datablock1
+					(
+						layout type = -2
+						fields
+						(
+							Book_Id as "Book Id"
+							Book_Title as "Book Title"
+							Book_Author as "Book Author"
+							Book_Genre as "Book Genre"
+							Publication_Year as "Publication Year"
+							Available_Copies as "Available Copies "
+							ISBN_Number as "ISBN Number"
+							"Mark as Featured"
+							Status
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+					record
+					(
+						Edit   	   
+						Duplicate   	   
+						Delete   	   
+    				)
+    			)
+    			action
+    			(
+					on click
+					(
+						View Record   	   
+    				)
+					on right click
+					(
+						Edit   	   
+						Delete   	   
+						Duplicate   	   
+						View Record   	   
+    				)
+     			)
+			)
+			detailview
+			(
+				layout
+				(
+		 			type = 1
+					datablock1
+					(
+						layout type = -2
+						fields
+						(
+							Book_Title as "Book Title"
+							Book_Author as "Book Author"
+							Book_Genre as "Book Genre"
+							Publication_Year as "Publication Year"
+							Available_Copies as "Available Copies "
+							ISBN_Number as "ISBN Number"
+							Rating as "Rating (1-5)"
+							Book_Id as "Book Id"
+							Status
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+    			)
+			)
+		}
+	}
+	section Transactions_Module
+	{
+		displayname= "Transactions Module"
+		icon = "design-usb"
+		form Transactions_Module
+		{
+			displayname = "Transactions Module"
+			success message = "Data Added Successfully!"
+			field alignment = left
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Transaction_ID
+			(
+    			type = text
+				displayname = "Transaction ID"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Member
+			(
+				type = picklist	
+				values  = Membership_Form.ID
+    			displayformat = [Member_Id]
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Books
+			(
+				type = picklist	
+				displayname = "Books "
+				values  = Books_Module[Available_Copies != 0].ID
+    			displayformat = [Book_Id]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Issue_Date
+			(
+    			type = datetime
+				displayname = "Issue Date"
+				initial value = "${zoho.currentdate}"
+				timedisplayoptions = "hh:mm:ss"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 1
+	 			column = 1   
+				width = small
+			)
+			Return_Date
+			(
+    			type = datetime
+				displayname = "Return Date"
+				timedisplayoptions = "hh:mm:ss"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Status
+			(
+				type = picklist
+				maxchar = 100
+				values = {"Issued","Returned","Overdue"}
+	 			row = 1
+	 			column = 1   
+				width = small
+			)
+			Formula
+			(
+    			type = formula
+				value =  month(Issue_Date) + "-" + year(Issue_Date)
+				visibility = false
+				display type = text
+				format = plaintext
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Fine_Amount
+			(
+				displayname = "Fine Amount"
+				type = USD
+				format = commadotindian
+	 			row = 1
+	 			column = 1   
+				width = small
+			)
+	
+			customize
+			(
+				icon = "design-usb"
+			)
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		default summary Transactions_Module_Report
+		{
+			displayName = "Transactions Module Report"
+			show all rows from Transactions_Module    
+			(
+				Transaction_ID as "Transaction ID"
+				Member
+				Issue_Date as "Issue Date"
+				Return_Date as "Return Date"
+				Status
+				Fine_Amount as "Fine Amount"
+				Books as "Books "
+				Member.Name 
+	 			(
+	      			displayformat = [first_name+""+prefix+""+last_name+""+suffix]
+	 			)
+				Formula
+				custom action "Mark as Lost"
+				(
+	  			workflow = Mark_as_Lost_Workflow
+				show action in edit record menu = true
+				column header = "Mark as Lost"
+				confirmation before execution
+				(
+					message for individual record = "The Available Copies will be 0.\nIf Clicked yes."
+					confirm button text = "Yes"		
+					cancel button text = "No"
+				)
+				)
+				Books.Available_Copies as "Available Copies "
+			)
+			options
+			(
+				display rows = 10
+				display records per row = 2
+				icon = "ui-1-database"
+			)
+			quickview
+			(
+				layout
+				(
+		 			type = -2
+	     			recordsperrow = 2
+					datablock1
+					(
+						layout type = -2
+						fields
+						(
+							Transaction_ID as "Transaction ID"
+							Member
+							Member.Name as "Name"
+							Issue_Date as "Issue Date"
+							Return_Date as "Return Date"
+							Status
+							Fine_Amount as "Fine Amount"
+							Books.Available_Copies as "Available Copies "
+							"Mark as Lost"
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+					record
+					(
+						Edit   	   
+						Duplicate   	   
+						Delete   	   
+    				)
+    			)
+    			action
+    			(
+					on click
+					(
+						"Mark as Lost"
+    				)
+					on right click
+					(
+						Edit   	   
+						Delete   	   
+						Duplicate   	   
+						View Record   	   
+    				)
+     			)
+			)
+			detailview
+			(
+				layout
+				(
+		 			type = 1
+					datablock1
+					(
+						layout type = -2
+						fields
+						(
+							Transaction_ID as "Transaction ID"
+							Member
+							Issue_Date as "Issue Date"
+							Return_Date as "Return Date"
+							Status
+							Fine_Amount as "Fine Amount"
+							Books as "Books "
+							Formula
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+    			)
+			)
+		}
+		summary Overdue_Books_Report
+		{
+			displayName = "Overdue Books Report"
+			show all rows from Transactions_Module  [Return_Date < '03-Jan-2025 11:44:46']  
+			(
+				Transaction_ID as "Transaction ID"
+				Member
+				Books as "Books "
+				Issue_Date as "Issue Date"
+				Return_Date as "Return Date"
+				Status
+				Fine_Amount as "Fine Amount"
+				Member.Name 
+	 			(
+	      			displayformat = [first_name+""+prefix+""+last_name+""+suffix]
+	 			)
+			)
+			options
+			(
+				display rows = 10
+				display records per row = 2
+				icon = "education-books-46"
+			)
+			quickview
+			(
+				layout
+				(
+		 			type = -2
+	     			recordsperrow = 2
+					datablock1
+					(
+						layout type = -2
+						fields
+						(
+							Member.Name as "Name"
+							Issue_Date as "Issue Date"
+							Return_Date as "Return Date"
+							Fine_Amount as "Fine Amount"
+							Books as "Books "
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+					record
+					(
+						Edit   	   
+						Duplicate   	   
+						Delete   	   
+    				)
+    			)
+    			action
+    			(
+					on click
+					(
+						View Record   	   
+    				)
+					on right click
+					(
+						Edit   	   
+						Delete   	   
+						Duplicate   	   
+						View Record   	   
+    				)
+     			)
+			)
+			detailview
+			(
+				layout
+				(
+		 			type = 2
+					datablock1
+					(
+						layout type = -2
+		     			title = "Overview"
+						fields
+						(
+							Transaction_ID as "Transaction ID"
+							Member
+							Books as "Books "
+							Issue_Date as "Issue Date"
+							Return_Date as "Return Date"
+							Status
+							Fine_Amount as "Fine Amount"
+						)
+					)
+					datablock2
+					(
+						layout type = -2
+		     			title = "Member"
+		     			related field = Member
+						fields
+						(
+							Member_Id as "Member Id"
+							Name
+							Email
+							Phone_Number as "Phone Number"
+							Membership_Start_Date as "Start Date"
+							Membership_Type as "Membership Type"
+							Max_Books_Allowed as "Max Books Allowed"
+						)
+					)
+					datablock3
+					(
+						layout type = -2
+		     			title = "Books "
+		     			related field = Books
+						fields
+						(
+							Book_Id as "Book Id"
+							Book_Title as "Book Title"
+							Book_Author as "Book Author"
+							Book_Genre as "Book Genre"
+							Publication_Year as "Publication Year"
+							Available_Copies as "Available Copies "
+							ISBN_Number as "ISBN Number"
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+    			)
+			)
+		}
+		summary Top_Members_Report
+		{
+			displayName = "Top Members Report"
+			show all rows from Transactions_Module  [Formula == "11-2024"]  
+			(
+				Transaction_ID as "Transaction ID"
+				Member
+				Books as "Books "
+				Issue_Date as "Issue Date"
+				Return_Date as "Return Date"
+				Status
+				Formula
+				Fine_Amount as "Fine Amount"
+				Member.Email
+				Member.Name 
+	 			(
+	      			displayformat = [first_name+""+prefix+""+last_name+""+suffix]
+	 			)
+			)
+			filters
+			(
+				Member
+			)
+			group by
+			(
+				Member custom
+			)
+			sort by
+			(
+				Member custom
+			)
+			options
+			(
+				display rows = 10
+				display records per row = 2
+				icon = "business-progress"
+			)
+			custom actions
+			(
+				"view top 10"
+				(
+	  			workflow = view_top_10
+				)
+			)
+			quickview
+			(
+				layout
+				(
+		 			type = -2
+	     			recordsperrow = 2
+					datablock1
+					(
+						layout type = -2
+						fields
+						(
+							Member.Name as "Name"
+							Member.Email as "Email"
+							Transaction_ID as "Transaction ID"
+							Member
+							Books as "Books "
+							Issue_Date as "Issue Date"
+							Return_Date as "Return Date"
+							Status
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+					record
+					(
+						Edit   	   
+						Duplicate   	   
+						Delete   	   
+    				)
+    			)
+    			action
+    			(
+					on click
+					(
+						Delete   	   
+    				)
+					on right click
+					(
+						Edit   	   
+						Delete   	   
+						Duplicate   	   
+						View Record   	   
+    				)
+     			)
+			)
+			detailview
+			(
+				layout
+				(
+		 			type = 1
+					datablock1
+					(
+						layout type = -2
+						fields
+						(
+							Transaction_ID as "Transaction ID"
+							Member
+							Books as "Books "
+							Issue_Date as "Issue Date"
+							Return_Date as "Return Date"
+							Status
+							Formula
+							Fine_Amount as "Fine Amount"
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+    			)
+			)
+		}
+		list Genre_Popularity
+		{
+			displayName = "Genre Popularity"
+			show all rows from Transactions_Module    
+			(
+				Transaction_ID as "Transaction ID"
+				Member
+				Books as "Books "
+				Issue_Date as "Issue Date"
+				Return_Date as "Return Date"
+				Status
+				Formula
+				Fine_Amount as "Fine Amount"
+				Books.Book_Genre as "Book Genre"
+			)
+			group by
+			(
+				properties
+    			(
+  	    			display record count = true
+   				)
+				Books.Book_Genre ascending
+				Transaction_ID ascending
+			)
+			options
+			(
+				icon = "sport-trophy"
+	 		)
+			quickview
+			(
+				layout
+				(
+		 			type = -1
+					datablock1
+					(
+						layout type = -1
+						fields
+						(
+							Transaction_ID as "Transaction ID"
+							Member
+							Books as "Books "
+							Formula
+							Books.Book_Genre as "Book Genre"
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+					record
+					(
+						Edit   	   
+						Duplicate   	   
+						Delete   	   
+    				)
+    			)
+    			action
+    			(
+					on click
+					(
+						View Record   	   
+    				)
+					on right click
+					(
+						Edit   	   
+						Delete   	   
+						Duplicate   	   
+						View Record   	   
+    				)
+     			)
+			)
+			detailview
+			(
+				layout
+				(
+		 			type = 1
+					datablock1
+					(
+						layout type = -2
+						fields
+						(
+							Transaction_ID as "Transaction ID"
+							Member
+							Books as "Books "
+							Issue_Date as "Issue Date"
+							Return_Date as "Return Date"
+							Status
+							Formula
+							Fine_Amount as "Fine Amount"
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+    			)
+			)
+		}
+	}
+	section Staff_Members_Module
+	{
+		displayname= "Staff Members Module"
+		icon = "holidays-sickle"
+		form Staff_Members_Module
+		{
+			displayname = "Staff Members Module"
+			success message = "Data Added Successfully!"
+			field alignment = left
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Staff_ID
+			(
+    			type = text
+				displayname = "Staff ID"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Name
+			(
+    			type = name
+     			prefix
+     			(
+	     			 type = prefix
+	     			 displayname ="Prefix"
+	     			 visibility = false
+	     			 value = {"Mr.","Mrs.","Ms."}
+     			) 
+     			first_name
+     			(
+	     			 type = first_name
+	     			 displayname ="First Name"
+     			) 
+     			last_name
+     			(
+	     			 type = last_name
+	     			 displayname ="Last Name"
+     			) 
+     			suffix
+     			(
+	     			 type = suffix
+	     			 displayname ="Suffix"
+	     			 visibility = false
+     			) 
+	 			row = 1
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			Email
+			(
+    			type = email
+				maxchar = 80
+	 			row = 1
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			Role
+			(
+				type = picklist
+				maxchar = 100
+				values = {"Librarian","Assistant"}
+				others option = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			users
+			(
+    			type = picklist
+				displayname = "Users"
+				module = users
+				displayformat = [username]
+	 			row = 1
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			must have Phone_Number
+			(
+    			type = phonenumber
+				displayname = "Phone Number"
+	 			row = 1
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+	
+			customize
+			(
+				icon = "holidays-sickle"
+			)
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		default list Staff_Members_Module_Report
+		{
+			displayName = "Staff Members Module Report"
+			show all rows from Staff_Members_Module    
+			(
+				Staff_ID as "Staff ID"
+				Name 
+	 			(
+	      			displayformat = [first_name+""+prefix+""+last_name+""+suffix]
+	 			)
+				Email
+				Role
+				Phone_Number as "Phone Number"
+				(
+					displayformat = plainnumber 
+					linktodial = enable
+				)
+				users as "Users"
+			)
+			options
+			(
+				icon = "holidays-sickle"
+	 		)
+			quickview
+			(
+				layout
+				(
+		 			type = -1
+					datablock1
+					(
+						layout type = -1
+						fields
+						(
+							Staff_ID as "Staff ID"
+							Name
+							Email
+							Role
+							Phone_Number as "Phone Number"
+							users as "Users"
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+					record
+					(
+						Edit   	   
+						Duplicate   	   
+						Delete   	   
+    				)
+    			)
+    			action
+    			(
+					on click
+					(
+						View Record   	   
+    				)
+					on right click
+					(
+						Edit   	   
+						Delete   	   
+						Duplicate   	   
+						View Record   	   
+    				)
+     			)
+			)
+			detailview
+			(
+				layout
+				(
+		 			type = 1
+					datablock1
+					(
+						layout type = -2
+						fields
+						(
+							Staff_ID as "Staff ID"
+							Name
+							Email
+							Role
+							Phone_Number as "Phone Number"
+							users as "Users"
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+    			)
+			)
+		}
+	}
+	section Genre_Popularity_Dashboard
+	{
+		displayname= "Genre Popularity Dashboard"
+		icon = "media-1-album"
+		page Genre_Popularity_Dashboard
+		{
+			displayname = "Genre Popularity Dashboard"
+			icon = "media-1-album"
+			Content="<zml    \t\t\n\t\t\n\t\t\n\t\t\twebDeviceConfig='{\"layout\":{\"displayType\":\"card\",\"design\":\"fluid\",\"style\":\"padding-right:0px;padding-top:0px;padding-bottom:100px;padding-left:0px;\"}}'\n\t\t\n\t\t\n>\n\t<layout>\n\t<row>\n\t<column\n   \t\t width=\"100%\"\n   \t>\n\t<chart \n\telementName=\"Genre Popularity Chart\"\n\n\t\n\ttitle = 'Gener Pie Module'\n\t\n\t\ttitleSize = '20px'\n\ttype = 'Pie'\n\txtitle = 'Book Gener'\n\tytitle = 'Book Borrowed'\n\tbgColor = '#000000'\n\ttheme = 'theme1'\n\tlegendPos = 'right.center'\n\tappLinkName = 'thisapp'\n\tformLinkName = 'Transactions_Module'\n\txfield = 'Books.Book_Genre'\n\tyfields = 'count:Books.Book_Id'\n\tyAxisInterval = '1'\n\/>\n\n<\/column>\n<\/row>\n<\/layout>\n<\/zml>"
+		}
+	}
+
+
+
+
+
+
+		workflow
+		{
+		form
+		{
+			Publication_Year_Validati as "Publication Year Validation"
+			{
+				type =  form
+				form = Books_Module
+				record event = on add
+
+				on user input of Publication_Year
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// Get the current year using today()
+										current_year = year(today);
+										// Check if the Publication Year is between 1900 and the current year
+										if(input.Publication_Year < 1900 || input.Publication_Year > current_year)
+										{
+											alert "Please enter a valid Publication Year between 1900 and " + current_year + ".";
+										}
+						)
+					}
+				}
+
+			}
+			Available_Copies_Cant_Be_ as "Available Copies Cant Be Less Then Zero"
+			{
+				type =  form
+				form = Books_Module
+				record event = on add
+
+				on user input of Available_Copies
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// Check if the Available Copies field value is less than 0
+										if(input.Available_Copies < 0)
+										{
+											alert "Available Copies cannot be less than 0.";
+										}
+						)
+					}
+				}
+
+			}
+			ISBN_Number_Validation as "ISBN Number Validation"
+			{
+				type =  form
+				form = Books_Module
+				record event = on add
+
+				on user input of ISBN_Number
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// // Set the required parameters
+										// owner_email = "adi2002rawat@gmail.com";
+										// // Replace with your Zoho Creator account email (owner of the app)
+										// app_link_name = "elite-library";
+										// // Replace with your actual app link name (lowercase with underscores)
+										// form_link_name = "books_module";
+										// // Replace with your form link name (lowercase with underscores)
+										// criteria = "ISBN_Number == '" + input.ISBN_Number + "'";
+										// // Check if the ISBN already exists
+										// connection_name = "creator_oauth_connection";
+										// // Replace with your OAuth connection name if you're using one
+										// // Query records to check if ISBN already exists
+										// response = zoho.creator.getRecords(owner_email,app_link_name,form_link_name,criteria,1,200,connection_name);
+										// // Check if ISBN already exists
+										// if(response.size() > 0)
+										// {
+										// 	alert "The ISBN Number already exists. Please enter a unique ISBN.";
+										// }
+						)
+					}
+				}
+
+			}
+			Run_Scripts_On_Always as "Run Scripts - On Always"
+			{
+				type =  form
+				form = Membership_Form
+				record event = on add or edit
+
+				field rules
+				{
+				}
+
+			}
+			Run_Scripts_On_Always1 as "Run Scripts - On Always"
+			{
+				type =  form
+				form = Membership_Form
+				record event = on add or edit
+
+				on validate
+				{
+				}
+
+			}
+			Generate_Member_ID as "Generate Member ID"
+			{
+				type =  form
+				form = Membership_Form
+				record event = on add
+
+				on success
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// // Fetch all Member_Id records
+										// all_records = Membership_Form[Member_Id != null];
+										// // Initialize a variable to hold the maximum numeric value
+										// max_id = 0;
+										// // Iterate through each record to extract and compare numeric parts of Member_Id
+										// for each  rec in all_records
+										// {
+										// 	numeric_part = rec.Member_Id.replaceAll("[^0-9]","").toLong();
+										// 	// Extract numeric part
+										// 	if(numeric_part > max_id)
+										// 	{
+										// 		max_id = numeric_part;
+										// 		// Update max_id if a larger number is found
+										// 	}
+										// }
+										// // Determine the next unique Member_Id
+										// next_id = max_id + 1;
+										// // Increment the maximum numeric value by 1
+										// // Assign the new Member_Id with a prefix
+										// input.Member_Id = "MID" + next_id;
+										// Fetch all Member_Id records
+										all_records = Membership_Form[Member_Id != null];
+										// Initialize a variable to hold the maximum numeric value
+										max_id = 0;
+										// Iterate through each record to extract and compare numeric parts of Member_Id
+										for each  rec in all_records
+										{
+											numeric_part = rec.Member_Id.toLong();
+											// Extract numeric part and convert to long (NUMBER type)
+											// Compare and get the maximum numeric part
+											if(numeric_part > max_id)
+											{
+												max_id = numeric_part;
+												// Update max_id if a larger number is found
+											}
+										}
+										// Determine the next unique Member_Id
+										next_id = max_id + 1;
+										// Increment the maximum numeric value by 1 to generate the next ID
+										// Assign the new Member_Id as a NUMBER (no "MID" prefix)
+										input.Member_Id = next_id;
+										// Assign the new numeric Member_Id (no "MID" prefix)
+						)
+					}
+				}
+
+			}
+			Disable_Member_Id_Editing as "Disable_Member_Id_Editing"
+			{
+				type =  form
+				form = Membership_Form
+				record event = on add
+
+				on load
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											disable Member_Id;
+						)
+					}
+				}
+
+			}
+			Member_Already_Present_Va as "Member Already Present Validation"
+			{
+				type =  form
+				form = Membership_Form
+				record event = on add
+
+				on validate
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											existing_member = Membership_Form[Email == input.Email && Phone_Number == input.Phone_Number];
+										if(existing_member.count() > 0)
+										{
+											alert "A member with this email and phone number already exists.";
+											cancel submit;
+										}
+						)
+					}
+				}
+
+			}
+			Max_Books_Allowed_To_User as "Max Books Allowed To User"
+			{
+				type =  form
+				form = Membership_Form
+				record event = on add
+
+				on user input of Membership_Type
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											if(input.Membership_Type == "Basic Member")
+										{
+											input.Max_Books_Allowed = 2;
+										}
+										else if(input.Membership_Type == "Premium Member")
+										{
+											input.Max_Books_Allowed = 5;
+										}
+										else if(input.Membership_Type == "Elite Member")
+										{
+											input.Max_Books_Allowed = 10;
+										}
+										else
+										{
+											input.Max_Books_Allowed = null;
+											// Reset if no valid type is selected
+										}
+										// Disable the Max_Books_Allowed field to make it non-editable after value is set
+										disable Max_Books_Allowed;
+						)
+					}
+				}
+
+			}
+			Send_Gmail_For_Overdue_Re as "Send Gmail For Overdue Reminder"
+			{
+				type =  form
+				form = Transactions_Module
+				record event = on add
+
+				on success
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// Get the Member ID from the lookup field
+										member_id = input.Member;
+										// Member lookup field (points to Member record)
+										// Log the member_id for verification
+										info "Looking up Member with ID: " + member_id;
+										// Fetch the member record by ID
+										member_record = Membership_Form[ID == member_id];
+										// Fetch record by system-generated ID
+										// Log the fetched member record for verification
+										info "Fetched member record: " + member_record.toString();
+										book_id = input.Books;
+										books_record = Books_Module[ID == book_id];
+										info "Fetched Book Records: " + books_record.toString();
+										// Get the book title and ISBN from the book record
+										if(books_record != null)
+										{
+											book_title = books_record.Book_Title;
+											// Replace 'Book_Title' with the actual field name
+											isbn_number = books_record.ISBN_Number;
+											// Replace 'ISBN_Number' with the actual field name for ISBN
+										}
+										else
+										{
+											book_title = "Unknown";
+											// If no book record found, set title as "Unknown"
+											isbn_number = "Unknown";
+											// If no ISBN record found, set ISBN as "Unknown"
+										}
+										// Access the member's details
+										if(member_record != null)
+										{
+											member_email = member_record.Email;
+											// Access the member's email
+											issue_date = input.Issue_Date;
+											// Issue date from the form
+											return_date = input.Return_Date;
+											// Return date from the form
+											// Get Max_Books_Allowed and Membership_Type from the member record
+											max_books_allowed = member_record.Max_Books_Allowed;
+											// Assuming this field exists in Membership_Form
+											membership_type = member_record.Membership_Type;
+											// Assuming this field exists in Membership_Form
+											// Set a fixed duration for allowed return time (e.g., 2 days from Issue Date)
+											due_duration_in_days = 2;
+											issue_date_ms = issue_date.toLong();
+											// Convert issue date to milliseconds
+											due_date_ms = issue_date_ms + due_duration_in_days * 86400000;
+											// Add days to milliseconds
+											due_date = due_date_ms.toDate();
+											// Convert from milliseconds to date
+											// Check if the return date is after the due date
+											if(return_date != null && return_date > due_date)
+											{
+												// Calculate overdue days and fine amount
+												overdue_days = ((return_date - due_date)) / 86400000;
+												// Convert milliseconds to days
+												fine_per_day = 2;
+												// Fine of $2 per day
+												fine_amount = overdue_days * fine_per_day;
+												// Total fine
+												// Prepare email content for overdue book
+												email_subject = "Reminder: Overdue Book - Fine Details";
+												email_body = "<html>" + "<body style='font-family: Arial, sans-serif; color: #333;'>" + "<h2 style='color: #FF5733;'>Overdue Book: Fine Details</h2>" + "<p>Dear Member,</p>" + "<p style='font-size: 16px;'>We would like to inform you that you have an overdue book. The details are as follows:</p>" + "<p style='font-size: 18px;'><strong>Book Details:</strong></p>" + "<table style='border-collapse: collapse; width: 100%;'>" + "<tr>" + "<td style='padding: 8px; border: 1px solid #ddd;'><strong>Book Title</strong></td>" + "<td style='padding: 8px; border: 1px solid #ddd;'>" + book_title + "</td>" + "</tr>" + "<tr>" + "<td style='padding: 8px; border: 1px solid #ddd;'><strong>ISBN Number</strong></td>" + "<td style='padding: 8px; border: 1px solid #ddd;'>" + isbn_number + "</td>" + "</tr>" + "<tr>" + "<td style='padding: 8px; border: 1px solid #ddd;'><strong>Issue Date</strong></td>" + "<td style='padding: 8px; border: 1px solid #ddd;'>" + issue_date + "</td>" + "</tr>" + "<tr>" + "<td style='padding: 8px; border: 1px solid #ddd;'><strong>Return Date</strong></td>" + "<td style='padding: 8px; border: 1px solid #ddd;'>" + return_date + "</td>" + "</tr>" + "</table>" + "<p style='font-size: 16px;'>The total fine for the overdue period is <strong>$" + fine_amount + "</strong>.</p>" + "<p style='font-size: 16px; color: #555;'>Please return the book as soon as possible to avoid further penalties.</p>" + "<p>We appreciate your prompt action in this matter. Thank you for your cooperation.</p>" + "<p>Best regards,<br>Your Library Team</p>" + "</body>" + "</html>";
+												// Send the email to the member
+												sendmail
+												[
+													from :"adi2002rawat@gmail.com"
+													to :member_email
+													subject :email_subject
+													message :email_body
+												]
+												info "Email sent to " + member_email + " with fine details.";
+											}
+											else
+											{
+												// If no fine is applicable, send a reminder for return
+												email_subject = "Reminder: Return Your Book";
+												email_body = "<html>" + "<body style='font-family: Arial, sans-serif; color: #333;'>" + "<h2 style='color: #4CAF50;'>Friendly Reminder: Return Your Book</h2>" + "<p>Dear Member,</p>" + "<p style='font-size: 16px;'>This is a friendly reminder to return the books you issued on <strong>" + issue_date + "</strong>.</p>" + "<p style='font-size: 18px;'><strong>Book Details:</strong></p>" + "<table style='border-collapse: collapse; width: 100%;'>" + "<tr>" + "<td style='padding: 8px; border: 1px solid #ddd;'><strong>Book Title</strong></td>" + "<td style='padding: 8px; border: 1px solid #ddd;'>" + book_title + "</td>" + "</tr>" + "<tr>" + "<td style='padding: 8px; border: 1px solid #ddd;'><strong>ISBN Number</strong></td>" + "<td style='padding: 8px; border: 1px solid #ddd;'>" + isbn_number + "</td>" + "</tr>" + "<tr>" + "<td style='padding: 8px; border: 1px solid #ddd;'><strong>Issue Date</strong></td>" + "<td style='padding: 8px; border: 1px solid #ddd;'>" + issue_date + "</td>" + "</tr>" + "<tr>" + "<td style='padding: 8px; border: 1px solid #ddd;'><strong>Return Date</strong></td>" + "<td style='padding: 8px; border: 1px solid #ddd;'>" + return_date + "</td>" + "</tr>" + "</table>" + "<p style='font-size: 16px; color: #555;'>Please ensure you return the book by the due date to avoid any penalties.</p>" + "<p style='font-size: 16px;'>You are allowed to issue <strong>" + max_books_allowed + "</strong> books under your <strong>" + membership_type + "</strong> membership type.</p>" + "<p>Thank you for your prompt attention to this matter.</p>" + "<p>Best regards,<br>Your Library Team</p>" + "</body>" + "</html>";
+												// Send the reminder email
+												sendmail
+												[
+													from :"adi2002rawat@gmail.com"
+													to :member_email
+													subject :email_subject
+													message :email_body
+												]
+												info "Reminder email sent to " + member_email + ".";
+											}
+										}
+										else
+										{
+											info "No member record found for ID: " + member_id;
+										}
+						)
+					}
+				}
+
+			}
+			Rating_Field_Validation as "Rating Field Validation"
+			{
+				type =  form
+				form = Books_Module
+				record event = on add
+
+				on validate
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											if(toNumber(input.Rating) < 1 || toNumber(input.Rating) > 5)
+										{
+											alert " Rating Must be between 0 - 5";
+											cancel submit;
+										}
+						)
+					}
+				}
+
+			}
+			Generate_Book_ID as "Generate Book ID"
+			{
+				type =  form
+				form = Books_Module
+				record event = on add
+
+				on validate
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// Fetch all existing Book_ID records
+										all_records = Books_Module[Book_Id != null];
+										// Assuming the field name is 'Book_Id' and it is of Number type
+										// Initialize a variable to hold the maximum numeric value
+										max_id = 100;
+										// Iterate through each record to extract and compare numeric parts of Book_ID
+										for each  rec in all_records
+										{
+											numeric_part = rec.Book_Id.toLong();
+											// Convert the Book_ID field value to long integer
+											// Check if the numeric part is greater than the current max_id
+											if(numeric_part > max_id)
+											{
+												max_id = numeric_part;
+												// Update max_id if a larger number is found
+											}
+										}
+										// Determine the next unique Book_ID
+										next_id = max_id + 1;
+										// Increment the maximum numeric value by 1
+										// Assign the new Book_ID (without a prefix, as it is a number)
+										input.Book_Id = next_id;
+										// Directly assigning the new numeric Book_ID
+						)
+					}
+				}
+
+			}
+			Disable_Book_Id_Field as "Disable Book Id Field"
+			{
+				type =  form
+				form = Books_Module
+				record event = on add
+
+				on load
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											disable Book_Id;
+						)
+					}
+				}
+
+			}
+			Auto_Generate_Transaction as "Auto Generate Transaction Id"
+			{
+				type =  form
+				form = Transactions_Module
+				record event = on add
+
+				on validate
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// Fetch all existing Transaction_ID records
+										all_records = Transactions_Module[Transaction_ID != null];
+										// Initialize a variable to hold the maximum numeric value
+										max_id = 0;
+										// Iterate through each record to extract and compare numeric parts of Transaction_ID
+										for each  rec in all_records
+										{
+											numeric_part = rec.Transaction_ID.replaceAll("[^0-9]","").toLong();
+											// Extract numeric part
+											if(numeric_part > max_id)
+											{
+												max_id = numeric_part;
+												// Update max_id if a larger number is found
+											}
+										}
+										// Determine the next unique Transaction_ID
+										next_id = max_id + 1;
+										// Increment the maximum numeric value by 1
+										// Assign the new Transaction_ID with a prefix
+										input.Transaction_ID = "TRANS-" + next_id;
+						)
+					}
+				}
+
+			}
+			Disable_Transaction_Id as "Disable Transaction Id"
+			{
+				type =  form
+				form = Transactions_Module
+				record event = on add
+
+				on load
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											disable Transaction_ID;
+						)
+					}
+				}
+
+			}
+			Return_Date_Validation as "Return Date Validation"
+			{
+				type =  form
+				form = Transactions_Module
+				record event = on add
+
+				on validate
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											if(input.Return_Date <= input.Issue_Date)
+										{
+											alert "The Return Date must be greater than the Issue Date.";
+											cancel submit;
+										}
+						)
+					}
+				}
+
+			}
+			Fine_Amount_Calculation as "Fine Amount Calculation"
+			{
+				type =  form
+				form = Transactions_Module
+				record event = on add
+
+				on user input of Status
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// // Ensure Return Date is filled and is after Issue Date
+										// if(input.Return_Date != null)
+										// {
+										// 	if(input.Return_Date > input.Issue_Date && input.Return_Date <= today)
+										// 	{
+										// 		// Ensure return date is after issue date but on or before today
+										// 		// Calculate the difference in milliseconds
+										// 		overdue_ms = input.Return_Date - input.Issue_Date;
+										// 		// Convert milliseconds to days (1 day = 86400000 milliseconds)
+										// 		overdue_days = overdue_ms / 86400000;
+										// 		// 86400000 is the number of milliseconds in a day
+										// 		// Fine per day (you can adjust this value)
+										// 		fine_per_day = 10;
+										// 		// Assume 10 units of fine per day
+										// 		// Calculate the fine
+										// 		fine_amount = overdue_days * fine_per_day;
+										// 		// Set the calculated fine amount in the Fine Amount field
+										// 		input.Fine_Amount = fine_amount;
+										// 		// Fine amount field (Currency type)
+										// 	}
+										// 	else
+										// 	{
+										// 		// No fine if return date is before or on the due date
+										// 		input.Fine_Amount = 0;
+										// 	}
+										// }
+										// else
+										// {
+										// 	// Set Fine Amount to 0 if Return Date is not filled
+										// 	input.Fine_Amount = 0;
+										// }
+										// Ensure Return Date is filled and is after Issue Date
+										if(input.Return_Date != null)
+										{
+											// Validate if Return Date is after Issue Date and not in the future
+											if(input.Return_Date > input.Issue_Date && input.Return_Date <= today)
+											{
+												// Calculate the difference between Return Date and Issue Date in milliseconds
+												overdue_ms = input.Return_Date - input.Issue_Date;
+												// Convert milliseconds to days (1 day = 86400000 milliseconds)
+												overdue_days = overdue_ms / 86400000;
+												// Fine per day (set to $2 as per requirement)
+												fine_per_day = 2;
+												// Calculate the fine amount
+												fine_amount = overdue_days * fine_per_day;
+												// Set the calculated fine amount in the Fine Amount field
+												input.Fine_Amount = fine_amount;
+												// Ensure Fine_Amount is of type Currency or Number
+											}
+											else
+											{
+												// If Return Date is not valid (before Issue Date or in the future), set Fine Amount to 0
+												input.Fine_Amount = 0;
+											}
+										}
+										else
+										{
+											// If Return Date is not filled, set Fine Amount to 0
+											input.Fine_Amount = 0;
+										}
+						)
+					}
+				}
+
+			}
+			Generate_Staff_ID as "Generate Staff ID"
+			{
+				type =  form
+				form = Staff_Members_Module
+				record event = on add
+
+				on load
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// Fetch all existing Staff records
+										all_records = Staff_Members_Module[Staff_ID != null];
+										// Initialize a variable to hold the maximum numeric value
+										max_id = 0;
+										// Iterate through each record to find the maximum Staff_ID
+										for each  rec in all_records
+										{
+											numeric_part = rec.Staff_ID.toLong();
+											// Convert Staff_ID to Long (numeric type)
+											// Update max_id if a larger number is found
+											if(numeric_part > max_id)
+											{
+												max_id = numeric_part;
+											}
+										}
+										// Determine the next unique Staff_ID
+										next_id = max_id + 1;
+										// Assign the new Staff_ID as a number
+										input.Staff_ID = next_id;
+						)
+					}
+				}
+
+			}
+			Managing_Copies_of_Books as "Managing Copies of Books"
+			{
+				type =  form
+				form = Transactions_Module
+				record event = on add
+
+				on validate
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// Fetch the Book_ID from the current transaction form
+										book_id = input.Books;
+										// Assuming Book_ID is a lookup field to the Books Module
+										// Fetch the corresponding book record from the Books Module
+										book_record = Books_Module[ID == book_id];
+										// Check if the book record exists
+										if(book_record != null)
+										{
+											// Get the current Available Copies for the book
+											current_available_copies = book_record.Available_Copies;
+											// Check the status in the transaction form
+											status = input.Status;
+											// Assuming Status is a dropdown field in the Transaction Module
+											// If the status is "Issued", decrease Available Copies by 1
+											if(status == "Issued")
+											{
+												// Check if there are available copies to issue
+												if(current_available_copies > 0)
+												{
+													updated_available_copies = current_available_copies - 1;
+													// Update the Available Copies field in the Books Module
+													book_record.Available_Copies=updated_available_copies;
+													info "Available Copies decreased. New count: " + updated_available_copies;
+												}
+												else
+												{
+													info "No available copies left to issue the book.";
+												}
+											}
+											// If the status is "Returned", increase Available Copies by 1
+											else if(status == "Returned")
+											{
+												updated_available_copies = current_available_copies + 1;
+												// Update the Available Copies field in the Books Module
+												book_record.Available_Copies=updated_available_copies;
+												info "Available Copies increased. New count: " + updated_available_copies;
+											}
+										}
+										else
+										{
+											info "Book record not found.";
+										}
+						)
+					}
+				}
+
+			}
+			Welcome_New_Member as "Welcome New Member"
+			{
+				type =  form
+				form = Membership_Form
+				record event = on add
+
+				on success
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// Fetch the email address of the new member
+										member_email = input.Email;
+										// Assuming 'Email' is the field for the member's email
+										// Define the email subject and body
+										email_subject = "Welcome to Our Community!";
+										email_body = "<html>" + "<body style='font-family: Arial, sans-serif; color: #333;'>" + "<h2 style='color: #4CAF50;'>Welcome to Our Community, " + input.Name + "!</h2>" + "<p style='font-size: 16px;'>We are excited to have you as a member. Below are your details:</p>" + "<table style='border-collapse: collapse; width: 100%;'>" + "<tr>" + "<td style='padding: 8px; border: 1px solid #ddd;'><strong>Name</strong></td>" + "<td style='padding: 8px; border: 1px solid #ddd;'>" + input.Name + "</td>" + "</tr>" + "<tr>" + "<td style='padding: 8px; border: 1px solid #ddd;'><strong>Email</strong></td>" + "<td style='padding: 8px; border: 1px solid #ddd;'>" + input.Email + "</td>" + "</tr>" + "</table>" + "<p style='font-size: 16px;'>We are glad to have you onboard and look forward to your participation in our community activities.</p>" + "<p style='font-size: 16px;'>Feel free to reach out if you have any questions or need assistance. We are here to help!</p>" + "<p>Best regards,<br>Your Team</p>" + "</body>" + "</html>";
+										// Send the welcome email to the member
+										sendmail
+										[
+											from :"adi2002rawat@gmail.com"
+											to :member_email
+											subject :email_subject
+											message :email_body
+										]
+										// Log the email sending action for verification
+										info "Welcome email sent to " + member_email;
+						)
+					}
+				}
+
+			}
+			Disable_Featured_Field as "Disable Featured Field"
+			{
+				type =  form
+				form = Books_Module
+				record event = on add
+
+				on load
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											disable Status;
+						)
+					}
+				}
+
+			}
+		}
+
+
+
+
+
+
+		functions
+		{
+			view_top_10 as "view top 10"
+			{
+				type =  functions
+				form = Transactions_Module
+				execution type = for each record	
+					status = inactive
+				on start
+				{
+				}
+			}
+			Feature_a_Book_Wrokflow as "Feature a Book Wrokflow"
+			{
+				type =  functions
+				form = Books_Module
+				execution type = for each record	
+				on start
+				{
+					actions 
+					{
+					on click
+					(
+						// Check the current value of the "Status" field and toggle between "Featured" and "Not Featured"
+										if(input.Status == "Not Featured")
+										{
+											input.Status = "Featured";
+											// If the current status is "Not Featured", set it to "Featured"
+											info "Book has been marked as Featured.";
+										}
+										else
+										{
+											input.Status = "Not Featured";
+											// If the current status is "Featured", set it back to "Not Featured"
+											info "Book has been marked as Not Featured.";
+										}
+					)
+					}
+				}
+			}
+			Mark_as_Lost_Workflow as "Mark as Lost Workflow"
+			{
+				type =  functions
+				form = Transactions_Module
+				execution type = for each record	
+				on start
+				{
+					actions 
+					{
+					on click
+					(
+						// Step 1: Get the Book ID from the Transaction record
+										book_id = input.Books;
+										// This will reference the Book ID from the lookup field
+										if(book_id != null)
+										{
+											// Step 2: Fetch the Book record using the Book ID
+											book_record = Books_Module[ID == book_id];
+											// Replace "Books_Module" with the actual module name if necessary
+											if(book_record != null)
+											{
+												// Step 3: Update the Available Copies of the Book record to 0
+												book_record.Available_Copies=0;
+												// Step 4: Save the updated Book record
+												input.Books.update(book_record.ID,book_record);
+												// Replace "Books_Module" with the correct module name if needed
+												// Step 5: Log a note in the Transactions Module (optional)
+												note_text = "Book marked as Lost. All available copies set to 0.";
+												// If you have a Notes field in the Transaction Module, update it like this:
+												Notes = note_text;
+												// Assuming 'Notes' is the field name for the transaction record
+												// Step 6: Provide a success message
+												info "Book marked as Lost successfully.";
+											}
+											else
+											{
+												// Handle case where the book record is not found
+												info "No Book record found with the provided ID.";
+											}
+										}
+										else
+										{
+											// Handle case where no Book ID is linked to the transaction
+											info "No Book linked to this transaction.";
+										}
+					)
+					}
+				}
+			}
+		}
+	}
+	share_settings
+	{
+			"Read"
+			{
+				name = "Read"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have read permission for all components\n"
+			}
+			"Write"
+			{
+				name = "Write"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have write permission for all components\n"
+			}
+			"Developer"
+			{
+				name = "Developer"
+				type = Developer
+				permissions = {Chat:false, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "Developer Profile\n"
+			}
+			"Administrator"
+			{
+				name = "Administrator"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have all the permissions.\n"
+			}
+			"Customer"
+			{
+				name = "Customer"
+				type = Customer_Portal
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This is the default profile having only add and view permission.\n"
+			}
+			roles
+			{
+				"Overlord"
+				{
+					description = "User belonging to this role can access data of all other users."
+				}
+			}
+	}
+
+	customize
+	{
+		
+		layout = "tab"
+		color = "black"
+		base theme = "professional"
+		new theme = 11
+		icons = true
+		icons style = outline
+		font = "lato"
+		color options
+    	{
+        color = "3"
+    	}
+    	icon
+    	{
+        	image = "image_1735729409019.png"
+    	}
+    	logo
+    	{
+        	preference = "none"
+        	placement = "left"
+    	}
+	}
+
+
+	phone
+	{
+		customize
+		{
+        	layout = slidingpane
+		 	icons style = outline
+        	font = "default"
+            style = "3"
+        	color options
+        	{
+             	color = red
+         	}
+         	logo
+         	{
+             	preference = "none"
+         	}
+		}
+	}
+	tablet
+	{
+		customize
+		{
+        	layout = slidingpane
+		 	icons style = outline
+        	font = "default"
+            style = "3"
+        	color options
+        	{
+             	color = red
+         	}
+         	logo
+         	{
+             	preference = "none"
+         	}
+		}
+	}
+	
+}
